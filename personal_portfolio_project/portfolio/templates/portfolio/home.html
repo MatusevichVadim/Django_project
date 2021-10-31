@@ -1,5 +1,12 @@
 <h1>Portfolio</h1>
 
+{% load static %}
+
+<a href="{% static 'portfolio/A_Byte_of_Python.pdf' %}">Book</a>
+
+<img src="{% static 'portfolio/My_face.jpg' %}" height="300" width="470">
+
+
 {% for project in project %}
 
 <h2>{{ project.title }}</h2>
