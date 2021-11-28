@@ -1,0 +1,25 @@
+
+{% if user.is_authenticated %}
+<!--#проверка регистрации пользователя-->
+
+Logget as {{ user.username }}
+<!--#если пользователь зарегался-->
+
+<form action="{% url 'logoutuser' %}" method="POST">
+{% csrf_token %}
+<button type="submit">Logout</button>
+</form>
+<!--нажатие на ссылку дает GET запрос нужно переделать в POST, для этого тут форма с кнопкой-->
+
+{% else %}
+
+<a href="{% url 'signupuser' %}">Sign in</a>
+<a href="{% url 'loginuser' %}">Login</a>
+
+{% endif %}
+
+<br>
+<br>
+
+
+{% block content %}{% endblock %}

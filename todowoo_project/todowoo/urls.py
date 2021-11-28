@@ -17,12 +17,19 @@ from django.contrib import admin
 from django.urls import path
 from todo import views
 
+"""записывается страница тут, потом в views создаем функцию которая говорит что делать при переходе"""
 urlpatterns = [
+    path('', views.home, name='home'),
     path('admin/', admin.site.urls),
 
 
     #auth
-    path('signup/', views.signupuser, name='signupuser')
+    path('signup/', views.signupuser, name='signupuser'),
+    path('login/', views.loginuser, name='loginuser'),
+    path('logout/', views.logoutuser, name='logoutuser'),
 
     #todos
+    path('current/', views.currenttodo, name='currenttodo'),
+    path('create/', views.createtodo, name='createtodo'),
+
 ]
