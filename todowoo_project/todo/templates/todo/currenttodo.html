@@ -6,5 +6,18 @@
 <!--# выделение блока контента страницы-->
 Current
 
+<ul>
+    {% for todo in todos %}
+    <li>
+        <a href="{% url 'viewtodo' todo.id %}">
+            <!--ссылка на туду, по ид-->
+        {% if todo.important %}<b>{% endif %}{{ todo.title }}{% if todo.important %}</b>{% endif %}
+        {% if todo.memo %} - {{ todo.memo }} {% endif %}
+        </a>
+    </li>
+    <!--заметка с меткой important оборачивается в тег б, если есть заметка добавляем тире и заметку-->
+    {% endfor %}
+</ul>
+
 {% endblock %}
 <!--#конец блока-->
