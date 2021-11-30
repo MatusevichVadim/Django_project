@@ -6,6 +6,10 @@ from django.contrib.auth import login, logout, authenticate #методы аут
 from .forms import TodoForm #форма для создания туду
 from .models import Todo #модель туду
 from django.utils import timezone #для заполнения поля datecomplete, для выполнения туду в функции completetodo
+from django.contrib.auth.decorators import login_required #только зареганные юзеры могут просматривать странички+в settings нужно добавить переход
+                                                          #чтобы незареганные попадали на страницу логина
+
+
 
 def home(request):
     return render(request, 'todo/home.html')
@@ -29,11 +33,13 @@ def signupuser(request):
             #ловим несовпадение паролей
 
 
+@login_required
 def logoutuser(request):
     """ при нажатии кнопки Logout сюда прилегает GET запрос, нужно переделать тег а в кнопке logout"""
     if request.method == 'POST': #post Для того чтобы автозагрузка браузера не выкидывала пользователя во время подгрузки ссылок на страницы
         logout(request)
         return redirect('home')
+
 
 def loginuser(request):
     if request.method == 'GET':
@@ -48,6 +54,7 @@ def loginuser(request):
             return redirect('currenttodo')  # и переходим на страницу при удачной аутентификации
 
 
+@login_required
 def createtodo(request):
     if request.method == 'GET':
         return render(request, 'todo/createtodo.html', {'form': TodoForm()}) #нужно создать форму для создания туду, создаем файл формс.пу
@@ -63,11 +70,22 @@ def createtodo(request):
         except ValueError:
             return render(request, 'todo/createtodo.html', {'form': TodoForm(), 'error': 'error переданы не верные данные'} )
 
+
+@login_required
 def currenttodo(request):
     todos = Todo.objects.filter(user=request.user, datecomplited__isnull=True) #обект словаря из моделей filter(user=request.user)-
-    # -для вывода записей пользователя. datecomplited__isnull=True для отображения выполненных туду, если поле заполнено, отображать не будет
+    # -для вывода записей пользователя. datecomplited__isnull=True для отображения не выполненных туду, если поле заполнено, отображать не будет
     return render(request, 'todo/currenttodo.html', {'todos': todos})
 
+
+@login_required
+def completedtodo(request):
+    todos = Todo.objects.filter(user=request.user, datecomplited__isnull=False).order_by('-datecomplited') #заполнено поле, показывает выполненые тодо
+    #order_by Для сортировки по времени выполнении
+    return render(request, 'todo/completedtodo.html', {'todos': todos})
+
+
+@login_required
 def viewtodo(request, todo_pk): #ключ записи для отображении на странице
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user) #класс и ключ
     if request.method == 'GET':
@@ -81,8 +99,9 @@ def viewtodo(request, todo_pk): #ключ записи для отображен
             return redirect('currenttodo')
         except ValueError:
             return render(request, 'todo/viewtodo.html',
-                          {'todo': todo, 'form': form, 'error': 'плохая информация'})
 
+                          {'todo': todo, 'form': form, 'error': 'плохая информация'})
+@login_required
 def completetodo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == 'POST': #запрос на выполнение
@@ -90,6 +109,8 @@ def completetodo(request, todo_pk):
         todo.save()
         return redirect('currenttodo')
 
+
+@login_required
 def deletetodo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == 'POST': #запрос на удаление

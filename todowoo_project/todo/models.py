@@ -15,5 +15,3 @@ class Todo(models.Model):
     def __str__(self):
         #метод для показа названия туду в админке
         return self.title
-
-

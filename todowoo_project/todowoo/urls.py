@@ -31,6 +31,7 @@ urlpatterns = [
     #todos
     path('current/', views.currenttodo, name='currenttodo'),
     path('create/', views.createtodo, name='createtodo'),
+    path('completed/', views.completedtodo, name='completedtodo'),
     path('todo/<int:todo_pk>', views.viewtodo, name='viewtodo'), #<int:todo_pk> переменным занчением будет первичный ключ записи
     path('todo/<int:todo_pk>/complete', views.completetodo, name='completetodo'),
     path('todo/<int:todo_pk>/delete', views.deletetodo, name='deletetodo'),
