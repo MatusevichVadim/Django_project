@@ -1,0 +1,11 @@
+cd D:\soft\Django_project\santa_project\santa_project\Scripts>
+Set-ExecutionPolicy Unrestricted
+activate
+
+Set-ExecutionPolicy Restricted
+
+
+cd D:\soft\Django_project\santa_project\landingpagewebsite_project>
+py .\manage.py runserver
+
+
