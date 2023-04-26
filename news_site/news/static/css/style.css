@@ -1,0 +1,33 @@
+body{
+    background-color: #d4d1d5;
+}
+
+div.ramka {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.btn {
+    margin-bottom: 10px;
+}
+
+.errorlist{
+    color: red;
+}
+
+.media > img {
+    float: left;
+    padding-right: 20px;
+}
+
+.media-body {
+    /*padding-left: 20px;*/
+}
+
+.card {
+    margin-top: 10px;
+}
+
+.alert {
+    margin-top: 10px;
+}

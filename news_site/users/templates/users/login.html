@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+    <h1 class="container text-center">Вход</h1>
+    <form method="post">
+        {% csrf_token %}
+        {#        {{ form.non_fields.errors }}#}
+        {{ form.as_p }}
+
+        <div class="gap-2 d-grid col-4 mx-auto">
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </div>
+    </form>
+
+
+
+
+
+{% endblock %}
+

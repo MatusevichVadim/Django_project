@@ -1,0 +1,54 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} poop {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!--          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"-->
+    <!--          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"-->
+    <!--          crossorigin="anonymous-->
+</head>
+<body>
+
+{% include 'inc/_nav.html' %}
+
+<div class="container mt-3">
+    <div class="row">
+
+        <div class="col-md-3">
+        {% load cache %}
+        {% cache 60 sidebar %}
+            {% block sidebar %} SIDEBAR {% endblock %}
+        {% endcache %}
+        </div>
+
+        <div class="col-md-9 ramka gap-2">
+
+            {% if messages %}
+                {% include 'inc/_alert.html' %}
+            {% endif %}
+
+            {% block content %} CONTENT {% endblock %}
+
+            {% if page_obj.has_other_pages %}
+                <div class="nav justify-content-center">
+                    {% include 'inc/_paginator.html' %}
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+
+
+<script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+</body>
+</html>
