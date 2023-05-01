@@ -41,9 +41,11 @@ INSTALLED_APPS = [
     'redisboard',
     'embed_video',
     'rest_framework',
+    'channels',  # приложение обертка для работы с websockets (asgi)
 
     'courses.apps.CoursesConfig',
     'students.apps.StudentsConfig',
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +83,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -96,6 +99,15 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379',
+    }
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        }
     }
 }
 
